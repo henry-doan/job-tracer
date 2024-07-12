@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
+
 import { AuthConsumer } from "../../providers/AuthProvider";
 
 const Register = ({ handleRegister }) => {
@@ -16,37 +18,45 @@ const Register = ({ handleRegister }) => {
   return (
     <>
       <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Email</label>
-        <input
-          type="email"
-          required
-          autoFocus
-          name='email'
-          value={user.email}
-          placeholder='Email'
-          onChange={(e) => setUser({ ...user, email: e.target.value })}
-        />
-        <label>Password</label>
-        <input
-          required
-          name='password'
-          value={user.password}
-          placeholder='Password'
-          type='password'
-          onChange={(e) => setUser({ ...user, password: e.target.value })}
-        />
-        <label>Password Confirmation</label>
-        <input
-          required
-          name='passwordConfirmation'
-          value={user.passwordConfirmation}
-          placeholder='Password Confirmation'
-          type='password'
-          onChange={(e) => setUser({ ...user, passwordConfirmation: e.target.value })}
-        />
-        <button type='submit'>Submit</button>
-      </form>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control 
+            type="email" 
+            placeholder="Enter email" 
+            autoFocus
+            required         
+            name='email'
+            value={user.email}
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Password</Form.Label>
+          <Form.Control 
+            type="password" 
+            placeholder="Password" 
+            required
+            name='password'
+            value={user.password}
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Password Confirmation</Form.Label>
+          <Form.Control 
+            type="password" 
+            placeholder="Password Confirmation" 
+            required
+            name='passwordConfirmation'
+            value={user.passwordConfirmation}
+            onChange={(e) => setUser({ ...user, passwordConfirmation: e.target.value })}
+          />
+        </Form.Group>
+        <Button variant="dark" type="submit">
+          Submit
+        </Button>
+      </Form>
     </>
   )
 }
