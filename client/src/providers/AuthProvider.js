@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
     axios.post("/api/auth", user)
       .then( res => {
         setUser(res.data.data);
-        navigate("/");
+        navigate("/dash");
       })
     .catch( res => {
       console.log(res);
@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
     axios.post("/api/auth/sign_in", user)
       .then( res => {
         setUser(res.data.data);
-        navigate("/");
+        navigate("/dash");
       })
       .catch( res => {
         console.log(res);
