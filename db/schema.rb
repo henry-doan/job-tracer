@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_13_200757) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_17_001728) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_13_200757) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_jobapps_on_user_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.string "subject"
+    t.text "body"
+    t.bigint "jobapp_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["jobapp_id"], name: "index_notes_on_jobapp_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -61,4 +70,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_13_200757) do
   end
 
   add_foreign_key "jobapps", "users"
+  add_foreign_key "notes", "jobapps"
 end
