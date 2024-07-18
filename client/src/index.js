@@ -8,6 +8,7 @@ import App from './App';
 import './index.css';
 import AuthProvider from "./providers/AuthProvider";
 import JobappProvider from './providers/JobappProvider';
+import NoteProvider from './providers/NoteProvider';
 
 initMiddleware();
 
@@ -17,7 +18,9 @@ root.render(
     <BrowserRouter>
       <AuthProvider>
         <JobappProvider>
-          <App />
+          <NoteProvider>
+            <App />
+          </NoteProvider>
         </JobappProvider>
       </AuthProvider>
     </BrowserRouter>
