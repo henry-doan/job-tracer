@@ -9,6 +9,7 @@ import Dash from './components/shared/Dash';
 import Home from './components/shared/Home';
 import MainNavbar from './components/shared/MainNavbar';
 import NoMatch from './components/shared/NoMatch';
+import Notes from './components/notes/Notes';
 
 const App = () => (
   <>
@@ -19,6 +20,7 @@ const App = () => (
           <Route path="/" element={<Home />} />
           <Route path='/' element={<ProtectedRoute />}>
             <Route path='/dash' element={<Dash />} />
+            <Route path='/:jobappid/notes' element={<Notes />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

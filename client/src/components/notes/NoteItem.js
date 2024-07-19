@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button, ButtonGroup, ListGroup, Modal } from "semantic-ui-react";
+import { Button, ButtonGroup, ListGroup, Modal } from "react-bootstrap";
 
 import { NoteConsumer } from "../../providers/NoteProvider";
 import NoteForm from "./NoteForm";

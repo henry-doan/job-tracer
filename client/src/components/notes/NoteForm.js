@@ -39,13 +39,7 @@ const NoteForm = ({ setAdd, addNote, updateNote, id, subject, body, setUpdateMod
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label>Subject</Form.Label>
-          <Form.Control 
-            name='subject'
-            value={note.subject}
-            onChange={(e) => setNote({ ...note, subject: e.target.value })}
-            required
-          />
+          <Form.Label>Body</Form.Label>
           <Form.Control 
             as="textarea" 
             rows={3} 
