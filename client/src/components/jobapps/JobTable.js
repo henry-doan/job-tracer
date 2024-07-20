@@ -15,9 +15,10 @@ const JobTable = ({ jobapps }) => (
       </tr>
     </thead>
     <tbody>
-      { jobapps.map( ja => 
+      { jobapps.map( (ja, index) => 
         <JobRow 
           {...ja}
+          index={index}
         />
       )}   
     </tbody>

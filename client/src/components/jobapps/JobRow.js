@@ -1,27 +1,28 @@
 import { useState } from "react";
 import { Button, Modal, } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import * as Icon from 'react-bootstrap-icons';
 
 import { JobappConsumer } from "../../providers/JobappProvider";
 import JobForm from "./JobForm";
 
-const JobRow = ({ id, desc, status, location, title, address, posting_url, work_hours, date_applied, date_responded, updateJobapp, deleteJobapp }) => {
+const JobRow = ({ id, desc, status, location, title, address, posting_url, work_hours, date_applied, date_responded, updateJobapp, deleteJobapp, index }) => {
   const [updateModalOpen, setUpdateModalOpen] = useState(false)
   const [detailsOpen, setDetailsOpen] = useState(false)
 
   return (
     <tr>
-      <td>{id}</td>
+      <td>{index + 1}</td>
       <td>{location}</td>
       <td>{title}</td>
       <td>{status}</td>
       <td>{date_applied}</td>
       <td>
-        <Button color='red' onClick={(e) => deleteJobapp(id)}>
-          Delete
+        <Button variant='danger' onClick={(e) => deleteJobapp(id)} className='mx-1'>
+          <Icon.Trash />
         </Button>
-        <Button variant="primary" onClick={() => setUpdateModalOpen(true)}>
-          Update
+        <Button variant="warning" onClick={() => setUpdateModalOpen(true)} className='mx-1'>
+          <Icon.Pencil />
         </Button>
         <Modal show={updateModalOpen} onHide={() => setUpdateModalOpen(false)} size="lg">
           <Modal.Header closeButton>
@@ -50,8 +51,8 @@ const JobRow = ({ id, desc, status, location, title, address, posting_url, work_
           </Modal.Footer>
         </Modal>
 
-      <Button variant="primary" onClick={() => setDetailsOpen(true)}>
-        More Info
+      <Button variant="info" onClick={() => setDetailsOpen(true)} className='mx-1'>
+        <Icon.FileText />
       </Button>
       <Modal show={detailsOpen} onHide={() => setDetailsOpen(false)} size="lg">
         <Modal.Header closeButton>
@@ -76,8 +77,9 @@ const JobRow = ({ id, desc, status, location, title, address, posting_url, work_
       </Modal>
         <Link
           to={`/${id}/notes`}
+          className='mx-1'
         >
-          <Button icon color='green'>
+          <Button>
             Notes
           </Button>
         </Link>

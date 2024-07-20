@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Form, Button, } from 'react-bootstrap';
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+
 
 import { JobappConsumer } from '../../providers/JobappProvider';
 
 const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, title, address, posting_url, work_hours, date_applied, date_responded, setUpdateModalOpen }) => {
   const [jobapp, setJobapp] = useState({ desc: '', status: 'Applied', location: '', title: '', address: '', posting_url: '', work_hours: '', date_applied: '', date_responded: '' })
-
+  const [editorState, setEditorState] = useState(EditorState.createEmpty())
+  
   useEffect( () => {
     if (id) {
       setJobapp({ desc, status, location, title, address, posting_url, work_hours, date_applied, date_responded })
@@ -29,6 +34,13 @@ const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, 
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Job Description</Form.Label>
+          {/* <Editor
+            editorState={editorState}
+            wrapperClassName="wrapper-class"
+            editorClassName="editor-class"
+            toolbarClassName="toolbar-class"
+            onEditorStateChange={setEditorState}
+          /> */}
           <Form.Control 
             as="textarea" 
             rows={3} 
@@ -37,7 +49,21 @@ const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, 
             name='desc'
             value={jobapp.desc}
             onChange={(e) => setJobapp({ ...jobapp, desc: e.target.value })}
-          />
+        />
+          {/* <Form.Control 
+            as="textarea" 
+            rows={3} 
+            autoFocus
+            required         
+            name='desc'
+            // value={jobapp.desc}
+            // onChange={(e) => setJobapp({ ...jobapp, desc: e.target.value })}
+            // onEditorStateChange={this.onEditorStateChange}
+            // value={draftToHtml(editorState.getCurrentContent())}
+            // value={draftToHtml(editorState.getCurrentContent())}
+            value={convertToRaw(editorState.getCurrentContent())}
+
+        /> */}
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Job title</Form.Label>

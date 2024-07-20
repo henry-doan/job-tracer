@@ -16,7 +16,7 @@ const Notes = ({ notes, getAllNotes, msgs, setMsgs  }) => {
 
   return (
     <Container>
-      <Button variant="primary" onClick={() => setAdd(true)}>
+      <Button variant="primary" onClick={() => setAdd(true)} className='mt-2 mb-3'>
         Add Note
       </Button>
 

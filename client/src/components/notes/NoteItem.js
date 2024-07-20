@@ -13,32 +13,30 @@ const NoteItem = ({ id, subject, body, updateNote, deleteNote }) => {
     <ListGroup.Item>
       <h4>{subject}</h4>
       <p>{body}</p>
-      <ButtonGroup>
-        <Button variant="warning" onClick={() => setUpdateModalOpen(true)}>
-          Edit
-        </Button>
+      <Button variant="warning" onClick={() => setUpdateModalOpen(true)} className='mx-2'>
+        Edit
+      </Button>
 
-        <Modal show={open} onHide={() => setUpdateModalOpen(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Update Note Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <NoteForm 
-              id={id}
-              subject={subject}
-              body={body}
-              updateNote={updateNote}
-              setUpdateModalOpen={setUpdateModalOpen}
-            />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setUpdateModalOpen(false)}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-        <Button variant="danger" onClick={(e) => deleteNote(jobappid, id)}>Delete</Button>
-      </ButtonGroup>
+      <Modal show={open} onHide={() => setUpdateModalOpen(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update Note Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <NoteForm 
+            id={id}
+            subject={subject}
+            body={body}
+            updateNote={updateNote}
+            setUpdateModalOpen={setUpdateModalOpen}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setUpdateModalOpen(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Button variant="danger" onClick={(e) => deleteNote(jobappid, id)} className='mx-2'>Delete</Button>
     </ListGroup.Item>
   )
 }

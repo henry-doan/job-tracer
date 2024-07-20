@@ -10,6 +10,9 @@ const MainNavbar = ({user, handleLogout }) => {
     if (user) {
       return (
         <Nav>
+          <Link to='/dash' className="nav-link">
+            Dashboard
+          </Link>
           <Nav.Link onClick={ () => handleLogout() }>
             Logout
           </Nav.Link>
