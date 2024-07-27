@@ -7,10 +7,14 @@ import draftToHtml from 'draftjs-to-html';
 
 import { JobappConsumer } from '../../providers/JobappProvider';
 
+const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
+
 const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, title, address, posting_url, work_hours, date_applied, date_responded, setUpdateModalOpen }) => {
   const [jobapp, setJobapp] = useState({ desc: '', status: 'Applied', location: '', title: '', address: '', posting_url: '', work_hours: '', date_applied: '', date_responded: '' })
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
-  
+  // const contentState = convertFromRaw(content);
+  const [contentState, setContentState] = useState(convertFromRaw(content))
+
   useEffect( () => {
     if (id) {
       setJobapp({ desc, status, location, title, address, posting_url, work_hours, date_applied, date_responded })
@@ -19,6 +23,14 @@ const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, 
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    let content = JSON.stringify(
+      convertToRaw(editorState.getCurrentContent()),
+    );
+
+    let htmlContent = draftToHtml(content)
+
+    debugger
+    
     if (id) {
       updateJobapp(id, jobapp)
       setUpdateModalOpen(false)
@@ -34,14 +46,14 @@ const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, 
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Job Description</Form.Label>
-          {/* <Editor
+          <Editor
             editorState={editorState}
             wrapperClassName="wrapper-class"
             editorClassName="editor-class"
             toolbarClassName="toolbar-class"
             onEditorStateChange={setEditorState}
-          /> */}
-          <Form.Control 
+          />
+          {/* <Form.Control 
             as="textarea" 
             rows={3} 
             autoFocus
@@ -49,21 +61,11 @@ const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, 
             name='desc'
             value={jobapp.desc}
             onChange={(e) => setJobapp({ ...jobapp, desc: e.target.value })}
-        />
-          {/* <Form.Control 
-            as="textarea" 
-            rows={3} 
-            autoFocus
-            required         
-            name='desc'
-            // value={jobapp.desc}
-            // onChange={(e) => setJobapp({ ...jobapp, desc: e.target.value })}
-            // onEditorStateChange={this.onEditorStateChange}
-            // value={draftToHtml(editorState.getCurrentContent())}
-            // value={draftToHtml(editorState.getCurrentContent())}
-            value={convertToRaw(editorState.getCurrentContent())}
-
         /> */}
+        <textarea
+          disabled
+          value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
+        />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Job title</Form.Label>
@@ -101,7 +103,6 @@ const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, 
         <Form.Group className="mb-3">
           <Form.Label>Address</Form.Label>
           <Form.Control 
-            required         
             name='address'
             value={jobapp.address}
             onChange={(e) => setJobapp({ ...jobapp, address: e.target.value })}
