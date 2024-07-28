@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Modal, } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
+import draftToHtml from 'draftjs-to-html';
 
 import { JobappConsumer } from "../../providers/JobappProvider";
 import JobForm from "./JobForm";
@@ -62,7 +63,12 @@ const JobRow = ({ id, desc, status, location, title, address, posting_url, work_
           <h1>{location}</h1>
           <h2>Job title:{title}</h2>
           <h3>Status: {status}</h3>
-          <p>{desc}</p>
+          {/* <p>{draftToHtml(desc)}</p> */}
+          {/* <p>{draftToHtml(desc)}</p> */}
+          <textarea
+            disabled
+            value={draftToHtml(desc)}
+          />
           <p>Address: {address}</p>
           <p>Posting URL:{posting_url}</p>
           <p>Hours:{work_hours}</p>

@@ -7,13 +7,10 @@ import draftToHtml from 'draftjs-to-html';
 
 import { JobappConsumer } from '../../providers/JobappProvider';
 
-const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
 
 const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, title, address, posting_url, work_hours, date_applied, date_responded, setUpdateModalOpen }) => {
   const [jobapp, setJobapp] = useState({ desc: '', status: 'Applied', location: '', title: '', address: '', posting_url: '', work_hours: '', date_applied: '', date_responded: '' })
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
-  // const contentState = convertFromRaw(content);
-  const [contentState, setContentState] = useState(convertFromRaw(content))
 
   useEffect( () => {
     if (id) {
@@ -23,19 +20,20 @@ const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, 
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    let content = JSON.stringify(
-      convertToRaw(editorState.getCurrentContent()),
-    );
+    // let content = JSON.stringify(
+    //   convertToRaw(editorState.getCurrentContent()),
+    // );
+    let content = convertToRaw(editorState.getCurrentContent())
+    // setJobapp({ ...jobapp, desc: content })
+    // await setJobapp({ ...jobapp, desc: content })
 
-    let htmlContent = draftToHtml(content)
+    // let htmlContent = draftToHtml(content)
 
-    debugger
-    
     if (id) {
       updateJobapp(id, jobapp)
       setUpdateModalOpen(false)
     } else {
-      addJobapp(jobapp)
+      addJobapp({...jobapp, desc: content})
       setAdd(false)
     }
     setJobapp({ desc: '', status: '', location: '', title: '', address: '', posting_url: '', work_hours: '', date_applied: '', date_responded: '' })
