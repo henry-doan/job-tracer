@@ -51,19 +51,6 @@ const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, 
             toolbarClassName="toolbar-class"
             onEditorStateChange={setEditorState}
           />
-          {/* <Form.Control 
-            as="textarea" 
-            rows={3} 
-            autoFocus
-            required         
-            name='desc'
-            value={jobapp.desc}
-            onChange={(e) => setJobapp({ ...jobapp, desc: e.target.value })}
-        /> */}
-        <textarea
-          disabled
-          value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
-        />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Job title</Form.Label>
