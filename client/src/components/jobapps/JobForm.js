@@ -20,10 +20,10 @@ const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, 
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // let content = JSON.stringify(
-    //   convertToRaw(editorState.getCurrentContent()),
-    // );
-    let content = convertToRaw(editorState.getCurrentContent())
+    let content = JSON.stringify(
+      convertToRaw(editorState.getCurrentContent()),
+    );
+    // let content = convertToRaw(editorState.getCurrentContent())
     // setJobapp({ ...jobapp, desc: content })
     // await setJobapp({ ...jobapp, desc: content })
 

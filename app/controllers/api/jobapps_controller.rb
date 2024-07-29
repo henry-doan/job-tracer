@@ -2,6 +2,7 @@ class Api::JobappsController < ApplicationController
   before_action :set_jobapp, only: [:show, :update, :destroy]
 
   def index
+    binding.break
     render json: current_user.jobapps
   end  
   

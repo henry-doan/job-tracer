@@ -64,10 +64,10 @@ const JobRow = ({ id, desc, status, location, title, address, posting_url, work_
           <h2>Job title:{title}</h2>
           <h3>Status: {status}</h3>
           {/* <p>{draftToHtml(desc)}</p> */}
-          {/* <p>{draftToHtml(desc)}</p> */}
+          {draftToHtml(JSON.parse(desc))}
           <textarea
             disabled
-            value={draftToHtml(desc)}
+            value={draftToHtml(JSON.parse(desc))}
           />
           <p>Address: {address}</p>
           <p>Posting URL:{posting_url}</p>
