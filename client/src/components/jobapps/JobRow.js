@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Button, Modal, } from "react-bootstrap";
+import { Button, Form, Modal, } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import draftToHtml from 'draftjs-to-html';
+import Moment from 'react-moment';
 
 import { JobappConsumer } from "../../providers/JobappProvider";
 import JobForm from "./JobForm";
@@ -17,7 +18,11 @@ const JobRow = ({ id, desc, status, location, title, address, posting_url, work_
       <td>{location}</td>
       <td>{title}</td>
       <td>{status}</td>
-      <td>{date_applied}</td>
+      <td>
+        <Moment format="MM-DD-YYYY">
+          {date_applied}
+        </Moment>
+      </td>
       <td>
         <Button variant='danger' onClick={(e) => deleteJobapp(id)} className='mx-1'>
           <Icon.Trash />
@@ -60,15 +65,39 @@ const JobRow = ({ id, desc, status, location, title, address, posting_url, work_
           <Modal.Title>Job Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h1>{location}</h1>
           <h2>Job title:{title}</h2>
+          <h3>{location}</h3>
           <h3>Status: {status}</h3>
-          {draftToHtml(JSON.parse(desc))}
-          <p>Address: {address}</p>
-          <p>Posting URL:{posting_url}</p>
-          <p>Hours:{work_hours}</p>
-          <p>Date Applied:{date_applied}</p>
-          <p>Date Final Response:{date_responded}</p>
+          <h5>Desc:</h5>
+          <Form.Control 
+            as="textarea" 
+            rows={3} 
+            readOnly
+            value={draftToHtml(JSON.parse(desc))}
+          />
+          <p><b>Address: </b>{address}</p>
+          <p>
+            <b>Posting URL: </b>
+            <Form.Control 
+              as="textarea" 
+              rows={2} 
+              readOnly
+              value={posting_url}
+            />
+          </p>
+          <p><b>Hours: </b>{work_hours}</p>
+          <p>
+            <b>Date Applied:</b>
+            <Moment format=" MM/DD/YYYY">
+              {date_applied}
+            </Moment>
+          </p>
+          <p>
+            <b>Date Final Response: </b>
+            <Moment format=" MM/DD/YYYY">
+              {date_responded}
+            </Moment>
+          </p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setDetailsOpen(false)}>
