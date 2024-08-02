@@ -1,34 +1,34 @@
-import { Container, Row } from "react-bootstrap";
+import { ListGroup } from "react-bootstrap";
 
 const styles = {
-  link: { 
+  selected: { 
+    textDecoration: 'underline #0d6efd', 
+    fontWeight: 'bold',
+  },
+  unselected: { 
     cursor: 'pointer', 
-    textDecoration: 'underline', 
-    color: 'blue',
-    marginLeft: '5px',
-    marginRight: '5px',
-  }
+  },
 }
 
 const filterLink = (current, name, setFilter) => {
   if (current === name)
-    return <span key={name}>{name}</span>
+    return <ListGroup.Item style={styles.selected} key={name}>{name}</ListGroup.Item>
   else 
-    return <span key={name}
-    style={styles.link}
-    onClick={ () => setFilter(name)}>{name}</span>
+    return <ListGroup.Item 
+            key={name}
+            onClick={ () => setFilter(name)}
+            style={styles.unselected} 
+           >
+              {name}
+          </ListGroup.Item>
 }
 
 const Filter = ({ filter, setFilter }) => (
-  <Container>
-    <h3>Sort By</h3>
-    <Row>
-      <h4>Status</h4>
-      { ['All', 'Applied', 'Rejected','Pending', 'Offer', 'Hired'].map( f => 
-        filterLink( filter, f, setFilter)
-      )}
-    </Row>
-  </Container>
+  <ListGroup horizontal>
+    { ['All', 'Applied', 'Rejected','Pending', 'Offer', 'Hired'].map( f => 
+      filterLink( filter, f, setFilter)
+    )}
+  </ListGroup>
 )
   
 export default Filter;

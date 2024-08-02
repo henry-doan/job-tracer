@@ -72,7 +72,7 @@ const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, 
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Status</Form.Label>
-          <Form.Select aria-label="Default select example"
+          <Form.Select 
             name='status'
             value={jobapp.status}
             onChange={(e) => setJobapp({ ...jobapp, status: e.target.value })}
