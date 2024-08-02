@@ -7,6 +7,7 @@ import Moment from 'react-moment';
 
 import { JobappConsumer } from "../../providers/JobappProvider";
 import JobForm from "./JobForm";
+import moment from "moment";
 
 const JobRow = ({ id, desc, status, location, title, address, posting_url, work_hours, date_applied, date_responded, updateJobapp, deleteJobapp, index }) => {
   const [updateModalOpen, setUpdateModalOpen] = useState(false)
@@ -19,9 +20,7 @@ const JobRow = ({ id, desc, status, location, title, address, posting_url, work_
       <td>{title}</td>
       <td>{status}</td>
       <td>
-        <Moment format="MM-DD-YYYY">
-          {date_applied}
-        </Moment>
+        {moment.utc(date_applied).format('MM-DD-YYYY')}
       </td>
       <td>
         <Button variant='danger' onClick={(e) => deleteJobapp(id)} className='mx-1'>
@@ -88,15 +87,11 @@ const JobRow = ({ id, desc, status, location, title, address, posting_url, work_
           <p><b>Hours: </b>{work_hours}</p>
           <p>
             <b>Date Applied:</b>
-            <Moment format=" MM/DD/YYYY">
-              {date_applied}
-            </Moment>
+            {moment.utc(date_applied).format('MM-DD-YYYY')}
           </p>
           <p>
             <b>Date Final Response: </b>
-            <Moment format=" MM/DD/YYYY">
-              {date_responded}
-            </Moment>
+            {date_responded ? moment.utc(date_responded).format('MM-DD-YYYY') : ' No response yet'}
           </p>
         </Modal.Body>
         <Modal.Footer>
