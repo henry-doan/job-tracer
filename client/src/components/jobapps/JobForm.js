@@ -1,9 +1,7 @@
+import { convertToRaw, EditorState } from 'draft-js';
 import { useEffect, useState } from 'react';
-import { Form, Button, } from 'react-bootstrap';
-import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
+import { Button, Form, } from 'react-bootstrap';
 import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
-
 
 import { JobappConsumer } from '../../providers/JobappProvider';
 
@@ -23,11 +21,6 @@ const JobForm = ({ setAdd, addJobapp, updateJobapp, id, desc, status, location, 
     let content = JSON.stringify(
       convertToRaw(editorState.getCurrentContent()),
     );
-    // let content = convertToRaw(editorState.getCurrentContent())
-    // setJobapp({ ...jobapp, desc: content })
-    // await setJobapp({ ...jobapp, desc: content })
-
-    // let htmlContent = draftToHtml(content)
 
     if (id) {
       updateJobapp(id, jobapp)

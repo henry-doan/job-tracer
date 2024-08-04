@@ -6,14 +6,20 @@ import { JobappConsumer } from "../../providers/JobappProvider";
 import JobForm from './JobForm';
 import JobTable from "./JobTable";
 import Filter from "./Filter";
+import JobStatDisplay from "./JobStatDisplay";
 
-const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs  }) => {
+const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
   const [adding, setAdd] = useState(false)
   const [filter, setFilter] = useState("ALL")
+  const [counts, setCounts] = useState({ applied: 0, rejected: 0, pending: 0, offer: 0, hired: 0 })
 
   useEffect( () => {
     getAllJobapps()
   }, [])
+
+  useEffect( () => {
+    jobappStats()
+  }, [jobapps])
 
   const JobAppFilter = () => {
     switch(filter) {
@@ -32,8 +38,35 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs  }) => {
     }
   }
 
+  const jobappStats = () => {
+    let counts = { applied: 0, rejected: 0, pending: 0, offer: 0, hired: 0 }
+    jobapps.map( ja => {
+      switch(ja.status) {
+        case 'Applied':
+          counts = {...counts, applied: counts.applied + 1}
+          break
+        case 'Rejected':
+          counts = {...counts, rejected: counts.rejected + 1}
+          break
+        case 'Pending':
+          counts = {...counts, pending: counts.pending + 1}
+          break
+        case 'Offer':
+          counts = {...counts, offer: counts.offer + 1}
+          break
+        case 'Hired':
+          counts = {...counts, hired: counts.hired + 1}
+          break
+        default:
+          break
+      }
+    })
+    return setCounts(counts)
+  }
+
   return (
    <>
+      <JobStatDisplay counts={counts} />
       <Button variant="primary" onClick={() => setAdd(true)} className='mt-2 mb-3'>
         <Icon.Plus />
       </Button>

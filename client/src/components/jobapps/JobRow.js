@@ -1,13 +1,12 @@
+import draftToHtml from 'draftjs-to-html';
 import { useState } from "react";
 import { Button, Form, Modal, } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
-import draftToHtml from 'draftjs-to-html';
-import Moment from 'react-moment';
+import { Link } from "react-router-dom";
 
+import moment from "moment";
 import { JobappConsumer } from "../../providers/JobappProvider";
 import JobForm from "./JobForm";
-import moment from "moment";
 
 const JobRow = ({ id, desc, status, location, title, address, posting_url, work_hours, date_applied, date_responded, updateJobapp, deleteJobapp, index }) => {
   const [updateModalOpen, setUpdateModalOpen] = useState(false)
