@@ -12,6 +12,14 @@ import moment from "moment";
 const JobRow = ({ id, desc, status, location, title, address, posting_url, work_hours, date_applied, date_responded, updateJobapp, deleteJobapp, index }) => {
   const [updateModalOpen, setUpdateModalOpen] = useState(false)
   const [detailsOpen, setDetailsOpen] = useState(false)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  const handleClose = () => setDeleteModalOpen(false);
+  
+  const handleDelete = () => {
+    deleteJobapp(id)
+    setDeleteModalOpen(false)
+  }
 
   return (
     <tr>
@@ -20,12 +28,26 @@ const JobRow = ({ id, desc, status, location, title, address, posting_url, work_
       <td>{title}</td>
       <td>{status}</td>
       <td>
-        {moment.utc(date_applied).format('MM-DD-YYYY')}
+        {date_applied ? moment.utc(date_applied).format('MM-DD-YYYY') : 'Have Not Applied Yet'}
       </td>
       <td>
-        <Button variant='danger' onClick={(e) => deleteJobapp(id)} className='mx-1'>
+        <Button variant='danger' onClick={() => setDeleteModalOpen(true)} className='mx-1'>
           <Icon.Trash />
         </Button>
+
+        <Modal show={deleteModalOpen} onHide={handleClose}>
+          <Modal.Header closeButton>
+          </Modal.Header>
+          <Modal.Body>Are you sure you want to delete? (There is no going back.)</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="danger" onClick={handleDelete}>
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <Button variant="warning" onClick={() => setUpdateModalOpen(true)} className='mx-1'>
           <Icon.Pencil />
         </Button>
@@ -87,7 +109,7 @@ const JobRow = ({ id, desc, status, location, title, address, posting_url, work_
           <p><b>Hours: </b>{work_hours}</p>
           <p>
             <b>Date Applied:</b>
-            {moment.utc(date_applied).format('MM-DD-YYYY')}
+            {date_applied ? moment.utc(date_applied).format('MM-DD-YYYY') : 'Have Not Applied Yet'}
           </p>
           <p>
             <b>Date Final Response: </b>
