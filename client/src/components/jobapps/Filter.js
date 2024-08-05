@@ -1,26 +1,16 @@
 import { ListGroup } from "react-bootstrap";
-
-const styles = {
-  selected: { 
-    textDecoration: 'underline #0d6efd', 
-    fontWeight: 'bold',
-  },
-  unselected: { 
-    cursor: 'pointer', 
-  },
-}
+import { SelectedListGroupItem, UnselectedListGroupItem } from "../styles.js/mainstyles";
 
 const filterLink = (current, name, setFilter) => {
   if (current === name)
-    return <ListGroup.Item style={styles.selected} key={name}>{name}</ListGroup.Item>
+    return <SelectedListGroupItem key={name}>{name}</SelectedListGroupItem>
   else 
-    return <ListGroup.Item 
+    return <UnselectedListGroupItem
             key={name}
             onClick={ () => setFilter(name)}
-            style={styles.unselected} 
            >
               {name}
-          </ListGroup.Item>
+          </UnselectedListGroupItem>
 }
 
 const Filter = ({ filter, setFilter }) => (
