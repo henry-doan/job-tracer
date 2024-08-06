@@ -1,8 +1,17 @@
 import { Col, Row } from "react-bootstrap";
 import SingleStat from "./SingleStat";
 
-const JobStatDisplay = ({ counts }) => (
+const JobStatDisplay = ({ counts, total }) => (
   <>
+    <Row>
+      <Col>
+        <SingleStat 
+          counts={total}
+          label='Total'
+          txtcolor='#786A5D'
+        />
+      </Col>
+    </Row>
     <Row>
       <Col>
         <SingleStat 

@@ -66,7 +66,7 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
 
   return (
    <>
-      <JobStatDisplay counts={counts} />
+      <JobStatDisplay counts={counts} total={jobapps.length} />
       <Button variant="primary" onClick={() => setAdd(true)} className='mt-2 mb-3'>
         <Icon.Plus />
       </Button>
