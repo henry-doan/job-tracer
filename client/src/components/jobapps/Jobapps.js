@@ -13,6 +13,7 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
   const [filter, setFilter] = useState("ALL");
   const [counts, setCounts] = useState({ applied: 0, rejected: 0, pending: 0, offer: 0, hired: 0 });
   const [searchedList, setSearchedList] = useState(jobapps);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect( () => {
     getAllJobapps()
@@ -22,20 +23,20 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
     jobappStats()
   }, [jobapps])
 
-  const JobAppFilter = () => {
+  const jobAppFilter = () => {
     switch(filter) {
       case 'Applied':
-        return searchedList.filter( t => t.status === "Applied")
+        return jobapps.filter( t => t.status === "Applied")
       case 'Rejected':
-        return searchedList.filter( t => t.status === "Rejected")
+        return jobapps.filter( t => t.status === "Rejected")
       case 'Pending':
-        return searchedList.filter( t => t.status === "Pending")
+        return jobapps.filter( t => t.status === "Pending")
       case 'Offer':
-        return searchedList.filter( t => t.status === "Offer")
+        return jobapps.filter( t => t.status === "Offer")
       case 'Hired':
-        return searchedList.filter( t => t.status === "Hired")
+        return jobapps.filter( t => t.status === "Hired")
       default: 
-        return searchedList
+        return jobapps
     }
   }
 
@@ -65,11 +66,16 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
     return setCounts(counts)
   }
 
-  const searchjobApp = (searchTerm) => {
-    let filteredArray = jobapps.filter((jobapp) => 
-      jobapp.location.toLowerCase().startsWith(searchTerm.toLowerCase())
-    )
-    setSearchedList(filteredArray)
+  const searchjobApp = (newTerm) => {
+    setSearchTerm(newTerm)
+    if (searchTerm.length > 0) {
+      let filteredArray = jobapps.filter((jobapp) => 
+        jobapp.location.toLowerCase().startsWith(searchTerm.toLowerCase())
+      )
+      setSearchedList(filteredArray)
+    } else {
+      setSearchedList(jobapps)
+    }
   }
 
   return (
@@ -79,6 +85,8 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
         <Form.Control 
           placeholder="Search By Company" 
           onChange={(e) => searchjobApp(e.target.value)}
+          name="searchTerm"
+          value={searchTerm}
         />
       </Form.Group>
       <Button variant="primary" onClick={() => setAdd(true)} className='mt-2 mb-3'>
@@ -103,7 +111,7 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-      { jobapps ? <JobTable jobapps={JobAppFilter()} /> : <p>No Job Applications</p> }
+      { jobapps ? <JobTable jobapps={searchTerm.length > 0 ? searchedList : jobAppFilter()} /> : <p>No Job Applications</p> }
    </> 
   )
 }
