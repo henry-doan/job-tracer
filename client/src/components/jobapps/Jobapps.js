@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import * as Icon from 'react-bootstrap-icons';
 
 import { JobappConsumer } from "../../providers/JobappProvider";
@@ -9,9 +9,10 @@ import Filter from "./Filter";
 import JobStatDisplay from "./JobStatDisplay";
 
 const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
-  const [adding, setAdd] = useState(false)
-  const [filter, setFilter] = useState("ALL")
-  const [counts, setCounts] = useState({ applied: 0, rejected: 0, pending: 0, offer: 0, hired: 0 })
+  const [adding, setAdd] = useState(false);
+  const [filter, setFilter] = useState("ALL");
+  const [counts, setCounts] = useState({ applied: 0, rejected: 0, pending: 0, offer: 0, hired: 0 });
+  const [searchedList, setSearchedList] = useState(jobapps);
 
   useEffect( () => {
     getAllJobapps()
@@ -24,17 +25,17 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
   const JobAppFilter = () => {
     switch(filter) {
       case 'Applied':
-        return jobapps.filter( t => t.status === "Applied")
+        return searchedList.filter( t => t.status === "Applied")
       case 'Rejected':
-        return jobapps.filter( t => t.status === "Rejected")
+        return searchedList.filter( t => t.status === "Rejected")
       case 'Pending':
-        return jobapps.filter( t => t.status === "Pending")
+        return searchedList.filter( t => t.status === "Pending")
       case 'Offer':
-        return jobapps.filter( t => t.status === "Offer")
+        return searchedList.filter( t => t.status === "Offer")
       case 'Hired':
-        return jobapps.filter( t => t.status === "Hired")
+        return searchedList.filter( t => t.status === "Hired")
       default: 
-        return jobapps
+        return searchedList
     }
   }
 
@@ -64,9 +65,22 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
     return setCounts(counts)
   }
 
+  const searchjobApp = (searchTerm) => {
+    let filteredArray = jobapps.filter((jobapp) => 
+      jobapp.location.toLowerCase().startsWith(searchTerm.toLowerCase())
+    )
+    setSearchedList(filteredArray)
+  }
+
   return (
    <>
       <JobStatDisplay counts={counts} total={jobapps.length} />
+      <Form.Group className="mb-3">
+        <Form.Control 
+          placeholder="Search By Company" 
+          onChange={(e) => searchjobApp(e.target.value)}
+        />
+      </Form.Group>
       <Button variant="primary" onClick={() => setAdd(true)} className='mt-2 mb-3'>
         <Icon.Plus />
       </Button>
