@@ -66,29 +66,31 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
     return setCounts(counts)
   }
 
-  const searchjobApp = (newTerm) => {
-    setSearchTerm(newTerm)
+  const searchjobApp = (e) => {
+    e.preventDefault();
     if (searchTerm.length > 0) {
       let filteredArray = jobapps.filter((jobapp) => 
         jobapp.location.toLowerCase().startsWith(searchTerm.toLowerCase())
       )
       setSearchedList(filteredArray)
     } else {
-      setSearchedList(jobapps)
+      setSearchedList([])
     }
   }
 
   return (
    <>
       <JobStatDisplay counts={counts} total={jobapps.length} />
-      <Form.Group className="mb-3">
-        <Form.Control 
-          placeholder="Search By Company" 
-          onChange={(e) => searchjobApp(e.target.value)}
-          name="searchTerm"
-          value={searchTerm}
-        />
-      </Form.Group>
+      <Form onSubmit={(e) => searchjobApp(e)}>
+        <Form.Group className="mb-3">
+          <Form.Control 
+            placeholder="Search By Company" 
+            onChange={(e) => setSearchTerm(e.target.value)}
+            name="searchTerm"
+            value={searchTerm}
+          />
+        </Form.Group>
+      </Form>
       <Button variant="primary" onClick={() => setAdd(true)} className='mt-2 mb-3'>
         <Icon.Plus />
       </Button>
@@ -111,7 +113,7 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-      { jobapps ? <JobTable jobapps={searchTerm.length > 0 ? searchedList : jobAppFilter()} /> : <p>No Job Applications</p> }
+      { jobapps ? <JobTable jobapps={searchTerm.length > 0 && searchedList.length > 0 ? searchedList : jobAppFilter()} /> : <p>No Job Applications</p> }
    </> 
   )
 }
