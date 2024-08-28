@@ -7,6 +7,7 @@ import JobForm from './JobForm';
 import JobTable from "./JobTable";
 import Filter from "./Filter";
 import JobStatDisplay from "./JobStatDisplay";
+import FlashMessage from "../shared/FlashMessage";
 
 const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
   const [adding, setAdd] = useState(false);
@@ -14,6 +15,7 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
   const [counts, setCounts] = useState({ applied: 0, rejected: 0, pending: 0, offer: 0, hired: 0 });
   const [searchedList, setSearchedList] = useState(jobapps);
   const [searchTerm, setSearchTerm] = useState("");
+  const [flash, setFlash] = useState(false);
 
   useEffect( () => {
     getAllJobapps()
@@ -73,6 +75,9 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
         jobapp.location.toLowerCase().startsWith(searchTerm.toLowerCase())
       )
       setSearchedList(filteredArray)
+      if (filteredArray.length === 0) {
+        setFlash(true)
+      }
     } else {
       setSearchedList([])
     }
@@ -80,6 +85,11 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
 
   return (
    <>
+      { flash ?
+        <FlashMessage variant='danger' txt='No Search Results' />
+        :
+        <></>
+      }
       <JobStatDisplay counts={counts} total={jobapps.length} />
       <Form onSubmit={(e) => searchjobApp(e)}>
         <Form.Group className="mb-3">
