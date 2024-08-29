@@ -10,6 +10,7 @@ import './index.css';
 import AuthProvider from "./providers/AuthProvider";
 import JobappProvider from './providers/JobappProvider';
 import NoteProvider from './providers/NoteProvider';
+import InterviewProvider from './providers/InterviewProvider';
 
 initMiddleware();
 
@@ -20,7 +21,9 @@ root.render(
       <AuthProvider>
         <JobappProvider>
           <NoteProvider>
-            <App />
+            <InterviewProvider>
+              <App />
+            </InterviewProvider>
           </NoteProvider>
         </JobappProvider>
       </AuthProvider>

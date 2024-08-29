@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
-import { NoteConsumer } from '../../providers/NoteProvider';
 import { useParams } from 'react-router-dom';
+import { NoteConsumer } from '../../providers/NoteProvider';
 
 const NoteForm = ({ setAdd, addNote, updateNote, id, subject, body, setUpdateModalOpen }) => {
   const [note, setNote] = useState({ subject: '', body: '' })

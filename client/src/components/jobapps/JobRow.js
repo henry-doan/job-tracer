@@ -126,7 +126,15 @@ const JobRow = ({ id, desc, status, location, title, address, posting_url, work_
           className='mx-1'
         >
           <Button>
-            Notes
+            <Icon.ChatText />
+          </Button>
+        </Link>
+        <Link
+          to={`/${id}/interviews`}
+          className='mx-1'
+        >
+          <Button variant="success">
+            <Icon.InfoSquare />
           </Button>
         </Link>
       </td>

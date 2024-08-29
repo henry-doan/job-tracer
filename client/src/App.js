@@ -10,6 +10,7 @@ import Home from './components/shared/Home';
 import MainNavbar from './components/shared/MainNavbar';
 import NoMatch from './components/shared/NoMatch';
 import Notes from './components/notes/Notes';
+import Interviews from './components/interviews/Interviews';
 
 const App = () => (
   <>
@@ -21,6 +22,7 @@ const App = () => (
           <Route path='/' element={<ProtectedRoute />}>
             <Route path='/dash' element={<Dash />} />
             <Route path='/:jobappid/notes' element={<Notes />} />
+            <Route path='/:jobappid/interviews' element={<Interviews />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

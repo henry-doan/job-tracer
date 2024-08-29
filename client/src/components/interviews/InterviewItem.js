@@ -1,32 +1,34 @@
+import moment from "moment";
 import { useState } from "react";
 import { Button, ListGroup, Modal } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
-import { NoteConsumer } from "../../providers/NoteProvider";
-import NoteForm from "./NoteForm";
+import { InterviewConsumer } from "../../providers/InterviewProvider";
+import InterviewForm from "./InterviewForm";
 
-const NoteItem = ({ id, subject, body, updateNote, deleteNote }) => {
+const InterviewItem = ({ id, stage, when, updateInterview, deleteInterview }) => {
   const [open, setUpdateModalOpen] = useState(false)
   const { jobappid } = useParams()
 
   return (
     <ListGroup.Item>
-      <h4>{subject}</h4>
-      <p>{body}</p>
+      <h4>{stage}</h4>
+      <p>{when ? moment.utc(when).format('MM-DD-YYYY') : 'Have Not Done Yet'}</p>
+
       <Button variant="warning" onClick={() => setUpdateModalOpen(true)} className='mx-2'>
         Edit
       </Button>
 
       <Modal show={open} onHide={() => setUpdateModalOpen(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Update Note Details</Modal.Title>
+          <Modal.Title>Update Interview Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <NoteForm 
+          <InterviewForm 
             id={id}
-            subject={subject}
-            body={body}
-            updateNote={updateNote}
+            stage={stage}
+            body={when}
+            updateInterview={updateInterview}
             setUpdateModalOpen={setUpdateModalOpen}
           />
         </Modal.Body>
@@ -36,15 +38,15 @@ const NoteItem = ({ id, subject, body, updateNote, deleteNote }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Button variant="danger" onClick={(e) => deleteNote(jobappid, id)} className='mx-2'>Delete</Button>
+      <Button variant="danger" onClick={(e) => deleteInterview(jobappid, id)} className='mx-2'>Delete</Button>
     </ListGroup.Item>
   )
 }
 
-const ConnectedNoteItem = (props) => (
-  <NoteConsumer>
-    { value => <NoteItem {...value} {...props} />}
-  </NoteConsumer>
+const ConnectedInterviewItem = (props) => (
+  <InterviewConsumer>
+    { value => <InterviewItem {...value} {...props} />}
+  </InterviewConsumer>
 )
 
-export default ConnectedNoteItem;
+export default ConnectedInterviewItem;

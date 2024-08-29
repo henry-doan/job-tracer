@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_17_001728) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_28_195958) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "interviews", force: :cascade do |t|
+    t.string "stage"
+    t.datetime "when"
+    t.bigint "jobapp_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["jobapp_id"], name: "index_interviews_on_jobapp_id"
+  end
 
   create_table "jobapps", force: :cascade do |t|
     t.text "desc"
@@ -69,6 +78,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_17_001728) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "interviews", "jobapps"
   add_foreign_key "jobapps", "users"
   add_foreign_key "notes", "jobapps"
 end
