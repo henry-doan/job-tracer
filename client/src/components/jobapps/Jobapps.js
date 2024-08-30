@@ -9,7 +9,7 @@ import Filter from "./Filter";
 import JobStatDisplay from "./JobStatDisplay";
 import FlashMessage from "../shared/FlashMessage";
 
-const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
+const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, totalInterviews, getAllInterviews, getUniqueInterviews, uniqueInterviews }) => {
   const [adding, setAdd] = useState(false);
   const [filter, setFilter] = useState("ALL");
   const [counts, setCounts] = useState({ applied: 0, rejected: 0, pending: 0, offer: 0, hired: 0 });
@@ -19,6 +19,8 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
 
   useEffect( () => {
     getAllJobapps()
+    getAllInterviews()
+    getUniqueInterviews()
   }, [])
 
   useEffect( () => {
@@ -90,7 +92,12 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, }) => {
         :
         <></>
       }
-      <JobStatDisplay counts={counts} total={jobapps.length} />
+      <JobStatDisplay 
+        counts={counts} 
+        total={jobapps.length} 
+        totalInterviews={totalInterviews} 
+        uniqueInterviews={uniqueInterviews}
+      />
       <Form onSubmit={(e) => searchjobApp(e)}>
         <Form.Group className="mb-3">
           <Form.Control 

@@ -31,6 +31,23 @@ class Api::JobappsController < ApplicationController
     render json: { message: 'Job app deleted' }
   end  
 
+  def total_interview_count
+    @total_interview_count = 0
+
+    current_user.jobapps.each do |j|
+      @total_interview_count += j.interviews.count
+    end
+    
+    render json: @total_interview_count
+  end
+
+  def unique_interview_count
+    @all_interviews = current_user.jobapps.collect { |jobapp| jobapp.interviews }.sum
+    @unique_interview_count = @all_interviews.pluck(:jobapp_id).uniq.count
+    
+    render json: @unique_interview_count
+  end
+
   private
     def set_jobapp
       @jobapp = current_user.jobapps.find(params[:id])

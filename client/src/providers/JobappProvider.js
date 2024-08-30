@@ -7,6 +7,8 @@ export const JobappConsumer = JobappContext.Consumer;
 
 const JobappProvider = ({ children }) => {
   const [jobapps, setJobapps] = useState([])
+  const [totalInterviews, setTotalInterviews] = useState()
+  const [uniqueInterviews, setUniqueInterviews] = useState()
   const [msgs, setMsgs] = useState()
   const navigate = useNavigate()
 
@@ -54,6 +56,24 @@ const JobappProvider = ({ children }) => {
       })
   }
 
+  const getAllInterviews = () => {
+    axios.get('/api/total_interview_count')
+      .then( res => setTotalInterviews(res.data))
+      .catch( err => {
+        console.log(err)
+        setMsgs({ msg: err.response.data.errors })
+      })
+  }
+
+  const getUniqueInterviews = () => {
+    axios.get('/api/unique_interview_count')
+      .then( res => setUniqueInterviews(res.data))
+      .catch( err => {
+        console.log(err)
+        setMsgs({ msg: err.response.data.errors })
+      })
+  }
+
   return (
     <JobappContext.Provider value={{
       jobapps, 
@@ -63,6 +83,10 @@ const JobappProvider = ({ children }) => {
       addJobapp,
       updateJobapp,
       deleteJobapp,
+      getAllInterviews,
+      totalInterviews,
+      getUniqueInterviews,
+      uniqueInterviews,
     }}>
       { children }
     </JobappContext.Provider>
