@@ -2,7 +2,9 @@ class Api::JobappsController < ApplicationController
   before_action :set_jobapp, only: [:show, :update, :destroy]
 
   def index
-    render json: current_user.jobapps
+    @jobapps = current_user.jobapps
+    @jobapps = current_user.jobapps.filter_by_status(params[:status]) if params[:status].present?
+    render json: @jobapps
   end  
   
   def show
