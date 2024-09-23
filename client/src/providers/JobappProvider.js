@@ -12,8 +12,8 @@ const JobappProvider = ({ children }) => {
   const [msgs, setMsgs] = useState()
   const navigate = useNavigate()
 
-  const getAllJobapps = () => {
-    axios.get('/api/jobapps')
+  const getAllJobapps = (status) => {
+    axios.get('/api/jobapps', { status })
       .then( res => setJobapps(res.data))
       .catch( err => {
         console.log(err)

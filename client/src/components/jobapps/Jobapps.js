@@ -85,6 +85,11 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, totalInterviews, getAl
     }
   }
 
+  const filterJobApp = (e) => {
+    e.preventDefault()
+    getAllJobapps(filter)
+  }
+
   return (
    <>
       { flash ?
@@ -108,13 +113,26 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, totalInterviews, getAl
           />
         </Form.Group>
       </Form>
+      <Form onSubmit={(e) => filterJobApp(e)}>
+        <Form.Group className="mb-3">
+          <Form.Select
+              onChange={(e) => setFilter(e.target.value)}
+              name="filter"
+              value={filter}
+          >
+             { ['All', 'Applied', 'Rejected','Pending', 'Offer', 'Hired'].map( f => 
+                <option value={f}>{f}</option>
+              )}
+          </Form.Select>
+        </Form.Group>
+      </Form>
       <Button variant="primary" onClick={() => setAdd(true)} className='mt-2 mb-3'>
         <Icon.Plus />
       </Button>
-      <Filter
+      {/* <Filter
         filter={filter}
         setFilter={setFilter}
-      />
+      /> */}
       <Modal show={adding} onHide={() => setAdd(false)} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Add New Job Application</Modal.Title>
