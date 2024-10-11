@@ -10,11 +10,27 @@ const JobappProvider = ({ children }) => {
   const [totalInterviews, setTotalInterviews] = useState()
   const [uniqueInterviews, setUniqueInterviews] = useState()
   const [msgs, setMsgs] = useState()
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
   const navigate = useNavigate()
 
-  const getAllJobapps = (status) => {
-    axios.get('/api/jobapps', { status })
-      .then( res => setJobapps(res.data))
+  const getAllJobapps = (status, term) => {
+    // might come back and separate the status and term
+    let url = '/api/jobapps/'
+
+    if (status && term) {
+      url = `/api/jobapps/?status=${status}&term=${term}`
+    } else if (status) {
+      url = `/api/jobapps/?status=${status}`
+    } else if (term) {
+      url =`/api/jobapps/?term=${term}`
+    } 
+    axios.get(url)
+      .then( res => {
+        setJobapps(res.data.jobapps)
+        setCurrentPage(res.data.current_page)
+        setTotalPages(res.data.total_pages)
+      })
       .catch( err => {
         console.log(err)
         setMsgs({ msg: err.response.data.errors })
@@ -87,6 +103,9 @@ const JobappProvider = ({ children }) => {
       totalInterviews,
       getUniqueInterviews,
       uniqueInterviews,
+      currentPage,
+      setCurrentPage,
+      totalPages,
     }}>
       { children }
     </JobappContext.Provider>

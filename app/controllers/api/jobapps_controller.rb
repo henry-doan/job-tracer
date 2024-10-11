@@ -2,9 +2,16 @@ class Api::JobappsController < ApplicationController
   before_action :set_jobapp, only: [:show, :update, :destroy]
 
   def index
+    # @jobapps = current_user.jobapps.limit(10)
     @jobapps = current_user.jobapps
-    @jobapps = current_user.jobapps.filter_by_status(params[:status]) if params[:status].present?
-    render json: @jobapps
+    @jobapps = current_user.jobapps.filter_by_status(params[:status]) if params[:status].present? && params[:status] != 'All'
+    @jobapps = current_user.jobapps.filter_by_starts_with(params[:term]) if params[:term].present?
+    @jobapps = @jobapps.paginate(page: params[:page], per_page: 25)
+    render json: { 
+      jobapps: @jobapps, 
+      current_page: @jobapps.current_page, 
+      total_pages: @jobapps.total_pages, 
+    }
   end  
   
   def show

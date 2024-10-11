@@ -3,13 +3,14 @@ import { Button, Form, Modal } from "react-bootstrap";
 import * as Icon from 'react-bootstrap-icons';
 
 import { JobappConsumer } from "../../providers/JobappProvider";
-import JobForm from './JobForm';
+import JobForm from "./JobForm";
 import JobTable from "./JobTable";
 import Filter from "./Filter";
 import JobStatDisplay from "./JobStatDisplay";
 import FlashMessage from "../shared/FlashMessage";
+import JobAppPagination from "./Pagination";
 
-const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, totalInterviews, getAllInterviews, getUniqueInterviews, uniqueInterviews }) => {
+const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, totalInterviews, getAllInterviews, getUniqueInterviews, uniqueInterviews, currentPage, setCurrentPage, totalPages }) => {
   const [adding, setAdd] = useState(false);
   const [filter, setFilter] = useState("ALL");
   const [counts, setCounts] = useState({ applied: 0, rejected: 0, pending: 0, offer: 0, hired: 0 });
@@ -27,21 +28,28 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, totalInterviews, getAl
     jobappStats()
   }, [jobapps])
 
-  const jobAppFilter = () => {
-    switch(filter) {
-      case 'Applied':
-        return jobapps.filter( t => t.status === "Applied")
-      case 'Rejected':
-        return jobapps.filter( t => t.status === "Rejected")
-      case 'Pending':
-        return jobapps.filter( t => t.status === "Pending")
-      case 'Offer':
-        return jobapps.filter( t => t.status === "Offer")
-      case 'Hired':
-        return jobapps.filter( t => t.status === "Hired")
-      default: 
-        return jobapps
-    }
+  // const jobAppFilter = () => {
+  //   switch(filter) {
+  //     case 'Applied':
+  //       return jobapps.filter( t => t.status === "Applied")
+  //     case 'Rejected':
+  //       return jobapps.filter( t => t.status === "Rejected")
+  //     case 'Pending':
+  //       return jobapps.filter( t => t.status === "Pending")
+  //     case 'Offer':
+  //       return jobapps.filter( t => t.status === "Offer")
+  //     case 'Hired':
+  //       return jobapps.filter( t => t.status === "Hired")
+  //     default: 
+  //       return jobapps
+  //   }
+  // }
+
+  const jobAppFilter = (filter) => {
+    setFilter(filter)
+    getAllJobapps(filter, searchTerm)
+    console.log('aeraer')
+    setSearchedList(jobapps)
   }
 
   const jobappStats = () => {
@@ -116,7 +124,8 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, totalInterviews, getAl
       <Form onSubmit={(e) => filterJobApp(e)}>
         <Form.Group className="mb-3">
           <Form.Select
-              onChange={(e) => setFilter(e.target.value)}
+              // onChange={(e) => setFilter(e.target.value)}
+              onChange={(e) => jobAppFilter(e.target.value)}
               name="filter"
               value={filter}
           >
@@ -148,7 +157,9 @@ const Jobapps = ({ jobapps, getAllJobapps, msgs, setMsgs, totalInterviews, getAl
           </Button>
         </Modal.Footer>
       </Modal>
-      { jobapps ? <JobTable jobapps={searchTerm.length > 0 && searchedList.length > 0 ? searchedList : jobAppFilter()} /> : <p>No Job Applications</p> }
+      {/* { jobapps ? <JobTable jobapps={searchTerm.length > 0 && searchedList.length > 0 ? searchedList : jobAppFilter()} /> : <p>No Job Applications</p> } */}
+      { jobapps ? <JobTable jobapps={searchTerm.length > 0 && searchedList.length > 0 ? searchedList : jobapps} /> : <p>No Job Applications</p> }
+      <JobAppPagination currentPage={currentPage} totalPages={totalPages} />
    </> 
   )
 }
