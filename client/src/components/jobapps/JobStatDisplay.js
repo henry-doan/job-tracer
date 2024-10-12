@@ -1,12 +1,12 @@
 import { Col, Row } from "react-bootstrap";
 import SingleStat from "./SingleStat";
 
-const JobStatDisplay = ({ counts, total, totalInterviews, uniqueInterviews }) => (
+const JobStatDisplay = ({ counts, totalInterviews, uniqueInterviews }) => (
   <>
     <Row>
       <Col>
         <SingleStat 
-          counts={total}
+          counts={counts.total_jobapps}
           label='Total'
           txtcolor='#786A5D'
         />

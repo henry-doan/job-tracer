@@ -2,9 +2,9 @@ class Api::JobappsController < ApplicationController
   before_action :set_jobapp, only: [:show, :update, :destroy]
 
   def index
-    # @jobapps = current_user.jobapps.limit(10)
-    @jobapps = current_user.jobapps
-    @jobapps = current_user.jobapps.filter_by_status(params[:status]) if params[:status].present? && params[:status] != 'All'
+    @jobapps = current_user.jobapps.order(:created_at)
+    # weird bug of when going to a diffent status then back to all it returns empty need to debug more
+    @jobapps = current_user.jobapps.filter_by_status(params[:status]) if params[:status].present? && params[:status] != 'ALL'
     @jobapps = current_user.jobapps.filter_by_starts_with(params[:term]) if params[:term].present?
     @jobapps = @jobapps.paginate(page: params[:page], per_page: 25)
     render json: { 
@@ -40,20 +40,33 @@ class Api::JobappsController < ApplicationController
     render json: { message: 'Job app deleted' }
   end  
 
-  def total_interview_count
-    @total_interview_count = 0
+  def jobapp_stats
+    status_counts = User.first.jobapps.group(:status).count
 
-    current_user.jobapps.each do |j|
-      @total_interview_count += j.interviews.count
-    end
-    
+    total_jobapp = status_counts.values.sum
+    total_applied = status_counts["Applied"] || 0
+    total_rejected = status_counts["Rejected"] || 0
+    total_pending = status_counts["Pending"] || 0
+    total_offer = status_counts["Offer"] || 0
+    total_hired = status_counts["Hired"] || 0
+
+    render json: { 
+      total_jobapps: total_jobapp, 
+      applied: total_applied, 
+      rejected: total_rejected, 
+      pending: total_pending, 
+      offer: total_offer, 
+      hired: total_hired, 
+    }
+  end
+
+  def total_interview_count
+    @total_interview_count = current_user.jobapps.joins(:interviews).count
     render json: @total_interview_count
   end
 
   def unique_interview_count
-    @all_interviews = current_user.jobapps.collect { |jobapp| jobapp.interviews }.sum
-    @unique_interview_count = @all_interviews.pluck(:jobapp_id).uniq.count
-    
+    @unique_interview_count = current_user.jobapps.joins(:interviews).distinct.count('interviews.jobapp_id')
     render json: @unique_interview_count
   end
 

@@ -12,10 +12,10 @@ const JobappProvider = ({ children }) => {
   const [msgs, setMsgs] = useState()
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
+  const [counts, setCounts] = useState({ applied: 0, rejected: 0, pending: 0, offer: 0, hired: 0 });
   const navigate = useNavigate()
 
-  const getAllJobapps = (status, term) => {
-    // might come back and separate the status and term
+  const getAllJobapps = (status, term, page) => {
     let url = '/api/jobapps/'
 
     if (status && term) {
@@ -25,10 +25,14 @@ const JobappProvider = ({ children }) => {
     } else if (term) {
       url =`/api/jobapps/?term=${term}`
     } 
+    
+    if (page) {
+      setCurrentPage(page)
+      url = url === '/api/jobapps/' ? url + `?page=${page}` : url + `&page=${page}`
+    }
     axios.get(url)
       .then( res => {
         setJobapps(res.data.jobapps)
-        setCurrentPage(res.data.current_page)
         setTotalPages(res.data.total_pages)
       })
       .catch( err => {
@@ -90,6 +94,17 @@ const JobappProvider = ({ children }) => {
       })
   }
 
+  const getStats = () => {
+    axios.get('/api/jobapp_stats')
+      .then( res => {
+        setCounts(res.data)
+      })
+      .catch( err => {
+        console.log(err)
+        setMsgs({ msg: err.response.data.errors })
+      })
+  }
+
   return (
     <JobappContext.Provider value={{
       jobapps, 
@@ -106,6 +121,8 @@ const JobappProvider = ({ children }) => {
       currentPage,
       setCurrentPage,
       totalPages,
+      getStats,
+      counts,
     }}>
       { children }
     </JobappContext.Provider>

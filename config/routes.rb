@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :interviews
     end
 
+    get '/jobapp_stats', to: 'jobapps#jobapp_stats'
     get '/total_interview_count', to: 'jobapps#total_interview_count'
     get '/unique_interview_count', to: 'jobapps#unique_interview_count'
   end
