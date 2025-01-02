@@ -1,21 +1,39 @@
 import { Pagination } from "react-bootstrap";
 
 const JobAppPagination = ({ currentPage, totalPages, onPageClick }) => {
-  const makePages = () => {
-    let items = [];
-    for (let number = 1; number <= totalPages; number++) {
-      items.push(
-        <Pagination.Item key={number} active={number === currentPage} onClick={() => onPageClick(number)}>
-          {number}
-        </Pagination.Item>,
-      );
-    }
+  const makePaginationItem = (i) => (
+    <Pagination.Item
+      key={i}
+      active={i === currentPage}
+      onClick={() => onPageClick(i)}
+    >
+      {i}
+    </Pagination.Item>
+  );
 
-    return items
+  const paginationItems = [];
+  paginationItems.push(<Pagination.Ellipsis />);
+  const midpoint = Math.round(totalPages / 2);
+
+  for (let i = midpoint; i <= midpoint + 4; i++) {
+    paginationItems.push(makePaginationItem(i));
   }
 
+  paginationItems.push(<Pagination.Ellipsis />);
+  paginationItems.push(makePaginationItem(totalPages));
+
   return(
-    <Pagination>{makePages()}</Pagination>
+    <Pagination className="paginationInfo">
+      <Pagination.Prev
+        onClick={() => onPageClick(currentPage - 1)}
+        disabled={currentPage === 1}
+      />
+      {paginationItems}
+      <Pagination.Next
+        onClick={() => onPageClick(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      />
+    </Pagination>
   )
 }
 
